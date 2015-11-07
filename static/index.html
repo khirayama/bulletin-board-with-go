@@ -1,0 +1,91 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>Bulletin board</h1>
+    <div id="message-create-form">
+      <input name="name" type="text" />
+      <input name="text" type="text" />
+      <div id="message-create-btn">[CREATE]</div>
+    </div>
+    <ul id="message-list"></ul>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+      function renderMessageList(messages) {
+        if (!messages) messages = [];
+        var liHTMLString = messages.map(function (message) {
+          return '<li>' + message.text + ' / ' + message.name + '<div class="message-delete-btn" data-id=" '+ message.id + '">[DELETE]</div></li>';
+        });
+        $('#message-list').html(liHTMLString);
+        setMessageDeleteBtnEventHandler();
+      }
+
+      function setMessageDeleteBtnEventHandler() {
+        $('.message-delete-btn').on('click', function (event) {
+          var id = $(event.target).data('id');
+          deleteMessage(id, updateMessageList);
+        });
+      }
+
+      function updateMessageList() {
+        fetchMessages(renderMessageList);
+      }
+
+      // CRUD
+      function fetchMessages(callback) {
+        $.ajax({
+          type: 'GET',
+          url: '/messages'
+        }).done(function (res) {
+          if (callback) callback(res);
+        });
+      }
+
+      function createMessage(callback) {
+        var data = generateRequestData();
+        $.ajax({
+          type: 'POST',
+          url: '/messages',
+          contentType: 'application/json',
+          data: JSON.stringify(data)
+        }).done(function (res) {
+          if (callback) callback(res);
+        });
+      }
+
+      function deleteMessage(id, callback) {
+        $.ajax({
+          type: 'DELETE',
+          url: '/messages/' + id,
+        }).done(function (res) {
+          if (callback) callback(res);
+        });
+      }
+
+      // helper
+      function generateRequestData() {
+        var $form = $('#message-create-form')
+        var name = $form.find('input[name=name]').val();
+        var text = $form.find('input[name=text]').val();
+        return { name: name, text: text };
+      }
+
+      function clearCreateForm() {
+        var $form = $('#message-create-form')
+        $form.find('input[name=name]').val('');
+        $form.find('input[name=text]').val('');
+      }
+
+      $(function () {
+        updateMessageList();
+        // create message
+        $('#message-create-btn').on('click', function () {
+          createMessage(function () {
+              updateMessageList();
+              clearCreateForm();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
