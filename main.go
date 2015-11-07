@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-var db, err = sql.Open("sqlite3", "./db/bulletinBoard.db")
+var db, err = sql.Open("sqlite3", "./bulletinBoard.db")
 
 func main() {
 	db.Exec("create table message(id integer primary key autoincrement, name text, text text)")
