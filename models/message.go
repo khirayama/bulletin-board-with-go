@@ -13,7 +13,7 @@ type Message struct {
 
 type Messages []Message
 
-var db, err = sql.Open("sqlite3", "./database/bulletinBoard.db")
+var db, err = sql.Open("sqlite3", "./app.db")
 
 func GetAllMessages() Messages {
 	var messages Messages
