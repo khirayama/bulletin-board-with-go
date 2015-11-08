@@ -1,7 +1,7 @@
-package main
+package handlers
 
 import (
-	"./models"
+	"../models"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"

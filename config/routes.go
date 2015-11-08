@@ -1,6 +1,9 @@
-package main
+package config
 
-import "net/http"
+import (
+	"../handlers"
+	"net/http"
+)
 
 type Route struct {
 	Name        string
@@ -11,23 +14,23 @@ type Route struct {
 
 type Routes []Route
 
-var routes = Routes{
+var Routing = Routes{
 	Route{
 		"MessageIndex",
 		"GET",
 		"/messages",
-		MessageIndex,
+		handlers.MessageIndex,
 	},
 	Route{
 		"MessageCreate",
 		"POST",
 		"/messages",
-		MessageCreate,
+		handlers.MessageCreate,
 	},
 	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{messageId}",
-		MessageDelete,
+		handlers.MessageDelete,
 	},
 }
