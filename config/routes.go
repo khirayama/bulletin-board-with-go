@@ -28,6 +28,18 @@ var Routing = Routes{
 		handlers.MessageCreate,
 	},
 	Route{
+		"MessageEdit",
+		"GET",
+		"/messages/{id}",
+		handlers.MessageEdit,
+	},
+	Route{
+		"MessageUpdate",
+		"PUT",
+		"/messages/{id}",
+		handlers.MessageUpdate,
+	},
+	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{id}",

@@ -54,6 +54,7 @@ func New(name string, text string) {
 }
 
 func (m *Message) Save() {
+	// TODO: this is same create method, but shpuld support create and update
 	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(m.Name, m.Text)
 }
@@ -68,10 +69,10 @@ func (m *Message) Destroy() {
 	stmt.Exec(m.Id)
 }
 
-// func (m *Message) Update() {
-// 	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
-// 	stmt.Exec(m.Name, m.Text)
-// }
+func (m *Message) Update() {
+	stmt, _ := db.Prepare("update message set name=?, text=? where id=?")
+	stmt.Exec(m.Name, m.Text, m.Id)
+}
 
 func init() {
 	db.Exec("create table message(id integer primary key autoincrement, name text, text text)")
