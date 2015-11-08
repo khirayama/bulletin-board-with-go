@@ -1,6 +1,7 @@
 package message
 
 import (
+	"../../helpers"
 	"../../models/message"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -14,7 +15,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	var messages message.Messages
 
 	messages = message.All()
-	BuildJSONs(w, messages)
+	helpers.BuildJSON(w, messages)
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	message_ := message.Find(id)
-	BuildJSON(w, message_)
+	helpers.BuildJSON(w, message_)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
@@ -51,17 +52,4 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	message_ := message.Find(id)
 	message_.Destroy()
 	// message.Delete(id)
-}
-
-// helper - TODO: Common BuildJSON methos
-func BuildJSON(w http.ResponseWriter, data message.Message) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
-}
-
-func BuildJSONs(w http.ResponseWriter, data message.Messages) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
 }
