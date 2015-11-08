@@ -1,7 +1,7 @@
 package config
 
 import (
-	"../handlers"
+	"../handlers/message"
 	"net/http"
 )
 
@@ -19,30 +19,30 @@ var Routing = Routes{
 		"MessageIndex",
 		"GET",
 		"/messages",
-		handlers.MessageIndex,
+		message.Index,
 	},
 	Route{
 		"MessageCreate",
 		"POST",
 		"/messages",
-		handlers.MessageCreate,
+		message.Create,
 	},
 	Route{
 		"MessageEdit",
 		"GET",
 		"/messages/{id}",
-		handlers.MessageEdit,
+		message.Edit,
 	},
 	Route{
 		"MessageUpdate",
 		"PUT",
 		"/messages/{id}",
-		handlers.MessageUpdate,
+		message.Update,
 	},
 	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{id}",
-		handlers.MessageDelete,
+		message.Delete,
 	},
 }

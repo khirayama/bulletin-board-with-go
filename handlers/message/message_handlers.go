@@ -1,7 +1,7 @@
-package handlers
+package message
 
 import (
-	"../models/message"
+	"../../models/message"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"
@@ -10,14 +10,14 @@ import (
 	"strconv"
 )
 
-func MessageIndex(w http.ResponseWriter, r *http.Request) {
+func Index(w http.ResponseWriter, r *http.Request) {
 	var messages message.Messages
 
 	messages = message.All()
 	BuildJSONs(w, messages)
 }
 
-func MessageCreate(w http.ResponseWriter, r *http.Request) {
+func Create(w http.ResponseWriter, r *http.Request) {
 	var message_ message.Message
 	body, _ := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
@@ -26,14 +26,14 @@ func MessageCreate(w http.ResponseWriter, r *http.Request) {
 	// message.New(message_.Name, message_.Text)
 }
 
-func MessageEdit(w http.ResponseWriter, r *http.Request) {
+func Edit(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	message_ := message.Find(id)
 	BuildJSON(w, message_)
 }
 
-func MessageUpdate(w http.ResponseWriter, r *http.Request) {
+func Update(w http.ResponseWriter, r *http.Request) {
 	var message_ message.Message
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -45,7 +45,7 @@ func MessageUpdate(w http.ResponseWriter, r *http.Request) {
 	message_.Update()
 }
 
-func MessageDelete(w http.ResponseWriter, r *http.Request) {
+func Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	message_ := message.Find(id)
@@ -53,6 +53,7 @@ func MessageDelete(w http.ResponseWriter, r *http.Request) {
 	// message.Delete(id)
 }
 
+// helper
 func BuildJSON(w http.ResponseWriter, data message.Message) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
