@@ -3,7 +3,7 @@
 # Get started
 ```
 $ go get
-$ go run *.go
+$ go run app.go
 ```
 
 ## TODO
