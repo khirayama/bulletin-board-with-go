@@ -1,4 +1,4 @@
-package models
+package message
 
 import (
 	"database/sql"
@@ -15,7 +15,7 @@ type Messages []Message
 
 var db, err = sql.Open("sqlite3", "./app.db")
 
-func GetAllMessages() Messages {
+func All() Messages {
 	var messages Messages
 	rows, _ := db.Query("SELECT id, name, text FROM message")
 
@@ -33,12 +33,12 @@ func GetAllMessages() Messages {
 	return messages
 }
 
-func CreateMessage(message Message) {
+func Create(message Message) {
 	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(message.Name, message.Text)
 }
 
-func DeleteMessage(id string) {
+func Delete(id string) {
 	stmt, _ := db.Prepare("delete from message where id=?")
 	stmt.Exec(id)
 }
