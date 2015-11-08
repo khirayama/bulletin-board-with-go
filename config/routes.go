@@ -30,7 +30,7 @@ var Routing = Routes{
 	Route{
 		"MessageDelete",
 		"DELETE",
-		"/messages/{messageId}",
+		"/messages/{id}",
 		handlers.MessageDelete,
 	},
 }
