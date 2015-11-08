@@ -55,9 +55,13 @@ func New(name string, text string) {
 }
 
 func (m *Message) Save() {
-	// TODO: this is same create method, but shpuld support create and update
-	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
-	stmt.Exec(m.Name, m.Text)
+	// FIXME: check to exist item
+	if m.Id != 0 {
+		m.Update()
+	} else {
+		stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
+		stmt.Exec(m.Name, m.Text)
+	}
 }
 
 func Delete(id string) {

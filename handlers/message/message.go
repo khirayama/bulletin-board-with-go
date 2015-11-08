@@ -24,6 +24,8 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(body, &message_)
 	message_.Save()
+
+	// Can this also
 	// message.New(message_.Name, message_.Text)
 }
 
@@ -44,6 +46,9 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	// FIXME: make id received by mux int
 	message_.Id, _ = strconv.Atoi(id)
 	message_.Update()
+
+	// Can this also
+	// message_.Save()
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
@@ -51,5 +56,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	message_ := message.Find(id)
 	message_.Destroy()
+
+	// Can this also
 	// message.Delete(id)
 }
