@@ -5,6 +5,8 @@
 $ go get
 $ go run app.go
 ```
+access: http://localhost:8080
+
 
 ## TODO
 
