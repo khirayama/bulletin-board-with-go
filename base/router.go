@@ -1,7 +1,7 @@
-package main
+package base
 
 import (
-	"./config"
+	"../config"
 	"github.com/gorilla/mux"
 	"net/http"
 )
