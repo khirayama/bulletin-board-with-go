@@ -13,9 +13,7 @@ func MessageIndex(w http.ResponseWriter, r *http.Request) {
 	var messages message.Messages
 
 	messages = message.All()
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(messages)
+	Jsonize(w, messages)
 }
 
 func MessageCreate(w http.ResponseWriter, r *http.Request) {
@@ -30,4 +28,10 @@ func MessageDelete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["messageId"]
 	message.Delete(id)
+}
+
+func Jsonize(w http.ResponseWriter, data message.Messages) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(data)
 }
