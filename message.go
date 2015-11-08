@@ -1,5 +1,10 @@
 package main
 
+import (
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
+)
+
 type Message struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
@@ -7,6 +12,8 @@ type Message struct {
 }
 
 type Messages []Message
+
+var db, err = sql.Open("sqlite3", "./bulletinBoard.db")
 
 func getAllMessages() Messages {
 	var messages Messages
@@ -34,4 +41,8 @@ func createMessage(message Message) {
 func deleteMessage(id string) {
 	stmt, _ := db.Prepare("delete from message where id=?")
 	stmt.Exec(id)
+}
+
+func init() {
+	db.Exec("create table message(id integer primary key autoincrement, name text, text text)")
 }
