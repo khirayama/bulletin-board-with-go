@@ -40,7 +40,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	json.Unmarshal(body, &message_)
-	// TODO: make id received by mux int
+	// FIXME: make id received by mux int
 	message_.Id, _ = strconv.Atoi(id)
 	message_.Update()
 }
@@ -53,7 +53,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	// message.Delete(id)
 }
 
-// helper
+// helper - TODO: Common BuildJSON methos
 func BuildJSON(w http.ResponseWriter, data message.Message) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)

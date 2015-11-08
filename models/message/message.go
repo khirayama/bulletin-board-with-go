@@ -13,11 +13,12 @@ type Message struct {
 
 type Messages []Message
 
-var db, err = sql.Open("sqlite3", "./app.db")
+// TODO: make database global constant
+var database, err = sql.Open("sqlite3", "./app.db")
 
 func Find(id string) Message {
 	message := Message{}
-	rows, _ := db.Query("SELECT id, name, text FROM message where id = ?", id)
+	rows, _ := database.Query("SELECT id, name, text FROM message where id = ?", id)
 	for rows.Next() {
 		var id int
 		var name string
@@ -32,7 +33,7 @@ func Find(id string) Message {
 
 func All() Messages {
 	var messages Messages
-	rows, _ := db.Query("SELECT id, name, text FROM message")
+	rows, _ := database.Query("SELECT id, name, text FROM message")
 
 	for rows.Next() {
 		var id int
@@ -49,31 +50,31 @@ func All() Messages {
 }
 
 func New(name string, text string) {
-	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
+	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(name, text)
 }
 
 func (m *Message) Save() {
 	// TODO: this is same create method, but shpuld support create and update
-	stmt, _ := db.Prepare("INSERT INTO message(name, text) values(?, ?)")
+	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(m.Name, m.Text)
 }
 
 func Delete(id string) {
-	stmt, _ := db.Prepare("delete from message where id=?")
+	stmt, _ := database.Prepare("delete from message where id=?")
 	stmt.Exec(id)
 }
 
 func (m *Message) Destroy() {
-	stmt, _ := db.Prepare("delete from message where id=?")
+	stmt, _ := database.Prepare("delete from message where id=?")
 	stmt.Exec(m.Id)
 }
 
 func (m *Message) Update() {
-	stmt, _ := db.Prepare("update message set name=?, text=? where id=?")
+	stmt, _ := database.Prepare("update message set name=?, text=? where id=?")
 	stmt.Exec(m.Name, m.Text, m.Id)
 }
 
 func init() {
-	db.Exec("create table message(id integer primary key autoincrement, name text, text text)")
+	database.Exec("create table message(id integer primary key autoincrement, name text, text text)")
 }
