@@ -1,8 +1,8 @@
-package message
+package messageHandlers
 
 import (
 	"../helpers"
-	"../models/message"
+	"../models"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"
