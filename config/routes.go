@@ -1,7 +1,7 @@
 package config
 
 import (
-	"../handlers/message"
+	"../handlers"
 	"net/http"
 )
 
