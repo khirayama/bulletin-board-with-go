@@ -1,6 +1,7 @@
 # Bulletin board with Go
+Goで簡易掲示板をつくってみた(Gorilla/SQLite)
 
-# Get started
+# Getting started
 ```
 $ go get
 $ go run app.go
