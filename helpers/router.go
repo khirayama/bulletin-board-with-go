@@ -1,14 +1,14 @@
-package base
+package helpers
 
 import (
-	"../config"
+	"../define"
 	"github.com/gorilla/mux"
 	"net/http"
 )
 
-func NewRouter() *mux.Router {
+func NewRouter(routing define.Routes) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range config.Routing {
+	for _, route := range routing {
 		var handler http.Handler
 		handler = route.HandlerFunc
 		handler = Logger(handler, route.Name)
