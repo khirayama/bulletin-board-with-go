@@ -11,11 +11,13 @@ type Message struct {
 	Text string `json:"text"`
 }
 
+// FIXME: need to move handler? If some method Messages
 type Messages []Message
 
 // TODO: make database global constant
 var database, err = sql.Open("sqlite3", "./app.db")
 
+// Read
 func Find(id string) Message {
 	message := Message{}
 	rows, _ := database.Query("SELECT id, name, text FROM message where id = ?", id)
@@ -49,6 +51,7 @@ func All() Messages {
 	return messages
 }
 
+// Create
 func New(name string, text string) {
 	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(name, text)
@@ -64,6 +67,7 @@ func (m *Message) Save() {
 	}
 }
 
+// Delete
 func Delete(id string) {
 	stmt, _ := database.Prepare("delete from message where id=?")
 	stmt.Exec(id)
@@ -74,6 +78,7 @@ func (m *Message) Destroy() {
 	stmt.Exec(m.Id)
 }
 
+// Update
 func (m *Message) Update() {
 	stmt, _ := database.Prepare("update message set name=?, text=? where id=?")
 	stmt.Exec(m.Name, m.Text, m.Id)
