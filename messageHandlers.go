@@ -1,8 +1,6 @@
-package messageHandlers
+package main
 
 import (
-	"../helpers"
-	"../models"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io"
@@ -12,14 +10,14 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	var messages message.Messages
+	var messages Messages
 
-	messages = message.All()
-	helpers.BuildJSON(w, messages)
+	messages = All()
+	BuildJSON(w, messages)
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-	var message_ message.Message
+	var message_ Message
 	body, _ := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 
 	json.Unmarshal(body, &message_)
@@ -32,12 +30,12 @@ func Create(w http.ResponseWriter, r *http.Request) {
 func Edit(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-	message_ := message.Find(id)
-	helpers.BuildJSON(w, message_)
+	message_ := Find(id)
+	BuildJSON(w, message_)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
-	var message_ message.Message
+	var message_ Message
 	vars := mux.Vars(r)
 	id := vars["id"]
 	body, _ := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
@@ -54,7 +52,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 func Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-	message_ := message.Find(id)
+	message_ := Find(id)
 	message_.Destroy()
 
 	// Can this also

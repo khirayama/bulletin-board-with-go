@@ -1,36 +1,44 @@
-package config
+package main
 
 import (
-	"../define"
-	"../handlers"
+	"net/http"
 )
 
-var Routing = define.Routes{
-	define.Route{
+type Route struct {
+	Name        string
+	Method      string
+	Pattern     string
+	HandlerFunc http.HandlerFunc
+}
+
+type Routes []Route
+
+var Routing = Routes{
+	Route{
 		"MessageIndex",
 		"GET",
 		"/messages",
 		messageHandlers.Index,
 	},
-	define.Route{
+	Route{
 		"MessageCreate",
 		"POST",
 		"/messages",
 		messageHandlers.Create,
 	},
-	define.Route{
+	Route{
 		"MessageEdit",
 		"GET",
 		"/messages/{id}",
 		messageHandlers.Edit,
 	},
-	define.Route{
+	Route{
 		"MessageUpdate",
 		"PUT",
 		"/messages/{id}",
 		messageHandlers.Update,
 	},
-	define.Route{
+	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{id}",
