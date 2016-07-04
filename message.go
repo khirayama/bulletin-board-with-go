@@ -8,7 +8,6 @@ type Message struct {
 
 type Messages []Message
 
-// Read
 func findMessage(id string) Message {
 	message := Message{}
 	rows, _ := database.Query("SELECT id, name, text FROM message where id = ?", id)
@@ -42,24 +41,17 @@ func getMessages() Messages {
 	return messages
 }
 
-// Create
 func createMessage(m Message) {
 	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
 	stmt.Exec(m.Name, m.Text)
 }
 
-// Delete
 func destroyMessage(id string) {
 	stmt, _ := database.Prepare("delete from message where id=?")
 	stmt.Exec(id)
 }
 
-// Update
 func updateMessage(m Message) {
 	stmt, _ := database.Prepare("update message set name=?, text=? where id=?")
 	stmt.Exec(m.Name, m.Text, m.Id)
-}
-
-func init() {
-	database.Exec("create table message(id integer primary key autoincrement, name text, text text)")
 }
