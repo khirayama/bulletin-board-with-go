@@ -1,10 +1,5 @@
 package main
 
-import (
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-)
-
 type Message struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
@@ -12,9 +7,6 @@ type Message struct {
 }
 
 type Messages []Message
-
-// TODO: make database global constant
-var database, err = sql.Open("sqlite3", "./app.db")
 
 // Read
 func findMessage(id string) Message {

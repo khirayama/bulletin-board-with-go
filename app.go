@@ -1,9 +1,13 @@
 package main
 
 import (
+	"database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"net/http"
 )
+
+var database, err = sql.Open("sqlite3", "./db/app.db")
 
 func main() {
 	log.Print("starting app...")
