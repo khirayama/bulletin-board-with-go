@@ -1,36 +1,35 @@
-package config
+package main
 
 import (
-	"../define"
-	"../handlers"
+	"./handlers"
 )
 
-var Routing = define.Routes{
-	define.Route{
+var Routing = Routes{
+	Route{
 		"MessageIndex",
 		"GET",
 		"/messages",
 		messageHandlers.Index,
 	},
-	define.Route{
+	Route{
 		"MessageCreate",
 		"POST",
 		"/messages",
 		messageHandlers.Create,
 	},
-	define.Route{
+	Route{
 		"MessageEdit",
 		"GET",
 		"/messages/{id}",
 		messageHandlers.Edit,
 	},
-	define.Route{
+	Route{
 		"MessageUpdate",
 		"PUT",
 		"/messages/{id}",
 		messageHandlers.Update,
 	},
-	define.Route{
+	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{id}",
