@@ -1,38 +1,34 @@
 package main
 
-import (
-	"./handlers"
-)
-
 var Routing = Routes{
 	Route{
-		"MessageIndex",
+		"MessagesIndex",
 		"GET",
 		"/messages",
-		messageHandlers.Index,
+		MessagesIndex,
 	},
 	Route{
 		"MessageCreate",
 		"POST",
 		"/messages",
-		messageHandlers.Create,
+		MessageCreate,
 	},
 	Route{
 		"MessageEdit",
 		"GET",
 		"/messages/{id}",
-		messageHandlers.Edit,
+		MessageEdit,
 	},
 	Route{
 		"MessageUpdate",
 		"PUT",
 		"/messages/{id}",
-		messageHandlers.Update,
+		MessageUpdate,
 	},
 	Route{
 		"MessageDelete",
 		"DELETE",
 		"/messages/{id}",
-		messageHandlers.Delete,
+		MessageDelete,
 	},
 }

@@ -1,4 +1,4 @@
-package message
+package main
 
 import (
 	"database/sql"
@@ -11,14 +11,13 @@ type Message struct {
 	Text string `json:"text"`
 }
 
-// FIXME: need to move handler? If some method Messages
 type Messages []Message
 
 // TODO: make database global constant
 var database, err = sql.Open("sqlite3", "./app.db")
 
 // Read
-func Find(id string) Message {
+func findMessage(id string) Message {
 	message := Message{}
 	rows, _ := database.Query("SELECT id, name, text FROM message where id = ?", id)
 	for rows.Next() {
@@ -33,7 +32,7 @@ func Find(id string) Message {
 	return message
 }
 
-func All() Messages {
+func getMessages() Messages {
 	var messages Messages
 	rows, _ := database.Query("SELECT id, name, text FROM message")
 
@@ -52,34 +51,19 @@ func All() Messages {
 }
 
 // Create
-func New(name string, text string) {
+func createMessage(m Message) {
 	stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
-	stmt.Exec(name, text)
-}
-
-func (m *Message) Save() {
-	// FIXME: check to exist item
-	if m.Id != 0 {
-		m.Update()
-	} else {
-		stmt, _ := database.Prepare("INSERT INTO message(name, text) values(?, ?)")
-		stmt.Exec(m.Name, m.Text)
-	}
+	stmt.Exec(m.Name, m.Text)
 }
 
 // Delete
-func Delete(id string) {
+func destroyMessage(id string) {
 	stmt, _ := database.Prepare("delete from message where id=?")
 	stmt.Exec(id)
 }
 
-func (m *Message) Destroy() {
-	stmt, _ := database.Prepare("delete from message where id=?")
-	stmt.Exec(m.Id)
-}
-
 // Update
-func (m *Message) Update() {
+func updateMessage(m Message) {
 	stmt, _ := database.Prepare("update message set name=?, text=? where id=?")
 	stmt.Exec(m.Name, m.Text, m.Id)
 }
