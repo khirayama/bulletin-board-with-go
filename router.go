@@ -5,19 +5,14 @@ import (
 	"net/http"
 )
 
-func NewRouter(routing Routes) *mux.Router {
+func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routing {
-		var handler http.Handler
-		handler = route.HandlerFunc
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
-
-	}
+	router.HandleFunc("/messages", MessagesIndex).Methods("GET")
+	router.HandleFunc("/messages", MessageCreate).Methods("POST")
+	router.HandleFunc("/messages/{id}", MessageEdit).Methods("GET")
+	router.HandleFunc("/messages/{id}", MessageUpdate).Methods("PUT")
+	router.HandleFunc("/messages/{id}", MessageDelete).Methods("DELETE")
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	http.Handle("/", router)
 	return router

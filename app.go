@@ -11,7 +11,7 @@ var database, err = sql.Open("sqlite3", "./db/app.db")
 
 func main() {
 	log.Print("starting app...")
-	router := NewRouter(Routing)
+	router := NewRouter()
 
 	log.Print("localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
