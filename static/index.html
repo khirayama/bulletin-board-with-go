@@ -3,18 +3,27 @@
   </head>
   <body>
     <h1>Bulletin board</h1>
+
+    <div id="user-create-form">
+      user name: <input name="name" type="text" />
+      <div id="user-create-btn">[CREATE]</div>
+    </div>
+
     <div id="message-create-form">
       text: <input name="text" type="text" />
       name: <input name="name" type="text" />
       <div id="message-create-btn">[CREATE]</div>
     </div>
+
     <ul id="message-list"></ul>
+
     <div id="message-update-form">
       text: <input name="text" type="text" />
       name: <input name="name" type="text" />
       <input name="id" type="hidden" />
       <div id="message-update-btn">[UPDATE]</div>
     </div>
+
     <script src="jquery.min.js"></script>
     <script>
       function setMessageDeleteBtnEventHandler() {
