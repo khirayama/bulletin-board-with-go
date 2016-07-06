@@ -9,91 +9,15 @@
       <div id="user-create-btn">[CREATE]</div>
     </div>
 
-    <div id="message-create-form">
-      text: <input name="text" type="text" />
-      name: <input name="name" type="text" />
-      <div id="message-create-btn">[CREATE]</div>
-    </div>
-
-    <ul id="message-list"></ul>
-
-    <div id="message-update-form">
-      text: <input name="text" type="text" />
-      name: <input name="name" type="text" />
-      <input name="id" type="hidden" />
-      <div id="message-update-btn">[UPDATE]</div>
-    </div>
-
     <script src="jquery.min.js"></script>
     <script>
-      function setMessageDeleteBtnEventHandler() {
-        $('.message-delete-btn').on('click', function (event) {
-          var id = $(event.target).data('id');
-          deleteMessage(id, updateMessageList);
-        });
-      }
-
-      function setMessageEditBtnEventHandler() {
-        $('.message-edit-btn').on('click', function (event) {
-          var id = $(event.target).data('id');
-          showUpdateForm();
-          fetchMessage(id, setValuesToUpdateForm);
-        });
-      }
-
-      function updateMessageList() {
-        fetchMessages(renderMessageList);
-      }
-
-      // CRUD
-      function fetchMessages(callback) {
-        $.ajax({
-          type: 'GET',
-          url: '/messages'
-        }).done(function (res) {
-          if (callback) callback(res);
-        });
-      }
-
-      function fetchMessage(id, callback) {
-        $.ajax({
-          type: 'GET',
-          url: '/messages/' + id,
-        }).done(function (res) {
-          if (callback) callback(res);
-        });
-      }
-
-      function createMessage(callback) {
-        var data = generateRequestData('#message-create-form');
+      function createUser(callback) {
+        var data = generateRequestData('#user-create-form');
         $.ajax({
           type: 'POST',
-          url: '/messages',
+          url: '/users',
           contentType: 'application/json',
           data: JSON.stringify(data)
-        }).done(function (res) {
-          if (callback) callback(res);
-        });
-      }
-
-      function updateMessage(callback) {
-        var updateFormSelector = '#message-update-form';
-        var data = generateRequestData(updateFormSelector);
-        var id = $(updateFormSelector).find('input[name=id]').val();
-        $.ajax({
-          type: 'PUT',
-          url: '/messages/' + id,
-          contentType: 'application/json',
-          data: JSON.stringify(data)
-        }).done(function (res) {
-          if (callback) callback(res);
-        });
-      }
-
-      function deleteMessage(id, callback) {
-        $.ajax({
-          type: 'DELETE',
-          url: '/messages/' + id,
         }).done(function (res) {
           if (callback) callback(res);
         });
@@ -103,58 +27,15 @@
       function generateRequestData(formSelecter) {
         var $form = $(formSelecter)
         var name = $form.find('input[name=name]').val();
-        var text = $form.find('input[name=text]').val();
-        return { name: name, text: text };
-      }
-
-      // DOM
-      function renderMessageList(messages) {
-        if (!messages) messages = [];
-        var liHTMLString = messages.map(function (message) {
-          return '<li>' + message.text + ' / ' + message.name + '<span class="message-delete-btn" data-id=" '+ message.id + '">[DELETE]</span><span class="message-edit-btn" data-id="' + message.id + '">[EDIT]</span></li>';
-        });
-        $('#message-list').html(liHTMLString);
-        setMessageDeleteBtnEventHandler();
-        setMessageEditBtnEventHandler();
-      }
-
-      function showUpdateForm() {
-        $('#message-update-form').show();
-      }
-
-      function hideUpdateForm() {
-        $('#message-update-form').hide();
-      }
-
-      function setValuesToUpdateForm(message) {
-        $('#message-update-form').find('input[name=name]').val(message.name);
-        $('#message-update-form').find('input[name=text]').val(message.text);
-        $('#message-update-form').find('input[name=id]').val(message.id);
-      }
-
-      function clearCreateForm(formSelecter) {
-        var $form = $(formSelecter)
-        $form.find('input[name=name]').val('');
-        $form.find('input[name=text]').val('');
+        return { name: name };
       }
 
       // entry point
       $(function () {
-        hideUpdateForm();
-        updateMessageList();
         // create message
-        $('#message-create-btn').on('click', function () {
-          createMessage(function () {
-            updateMessageList();
-            clearCreateForm('#message-create-form');
-          });
-        });
-
-        $('#message-update-btn').on('click', function () {
-          updateMessage(function () {
-            updateMessageList();
-            clearCreateForm('#message-update-form');
-            hideUpdateForm();
+        $('#user-create-btn').on('click', function () {
+          createUser(function (res) {
+            console.log(res);
           });
         });
       });
