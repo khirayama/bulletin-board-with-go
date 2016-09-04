@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
@@ -39,20 +38,4 @@ func NewRouter() *mux.Router {
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
 	tmpl, _ := template.ParseFiles("static/index.html")
 	tmpl.Execute(res, nil)
-}
-
-func SessionsCreate(res http.ResponseWriter, req *http.Request) {
-	// user, err := gothic.CompleteUserAuth(res, req)
-	// if err != nil {
-	// 	fmt.Fprintln(res, err)
-	// 	return
-	// }
-	// fmt.Println(user)
-	fmt.Println(gothic.GetState(req))
-	user, err := gothic.CompleteUserAuth(res, req)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Fprintln(res, "logged in!", user)
 }

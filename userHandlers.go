@@ -1,5 +1,22 @@
 package main
 
+import (
+	"fmt"
+	"github.com/markbates/goth/gothic"
+	"net/http"
+)
+
+func SessionsCreate(res http.ResponseWriter, req *http.Request) {
+	user, err := gothic.CompleteUserAuth(res, req)
+	if err != nil {
+		panic(err)
+	}
+
+	currentUser := FindOrCreateUserFromAuthHash(user)
+	fmt.Fprintln(res, "logged in!", currentUser)
+	// fmt.Fprintln(res, "logged in!", user)
+}
+
 // import (
 // 	"encoding/json"
 // 	"github.com/gorilla/mux"
