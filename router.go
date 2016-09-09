@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/twitter"
@@ -12,7 +11,6 @@ import (
 )
 
 func NewRouter() *mux.Router {
-	gothic.Store = sessions.NewFilesystemStore(os.TempDir(), []byte("goth-example"))
 	goth.UseProviders(twitter.New(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), "http://localhost:8080/auth/twitter/callback?provider=twitter"))
 
 	router := mux.NewRouter().StrictSlash(true)
