@@ -17,7 +17,8 @@ func NewRouter() *mux.Router {
 
 	router.HandleFunc("/", HomeHandler).Methods("GET")
 	router.HandleFunc("/auth/{provider}", gothic.BeginAuthHandler).Methods("GET")
-	router.HandleFunc("/auth/{provider}/callback", SessionsCreate).Methods("GET")
+	router.HandleFunc("/auth/{provider}/callback", sessionsCreate).Methods("GET")
+	router.HandleFunc("/board/", boardHandler).Methods("GET")
 	// router.HandleFunc("/users/{id}", UserEdit).Methods("GET")
 	// router.HandleFunc("/users/{id}", UserUpdate).Methods("PUT")
 	// router.HandleFunc("/users/{id}", UserDelete).Methods("DELETE")
@@ -34,6 +35,11 @@ func NewRouter() *mux.Router {
 }
 
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
+	tmpl, _ := template.ParseFiles("static/index.html")
+	tmpl.Execute(res, nil)
+}
+
+func boardHandler(res http.ResponseWriter, req *http.Request) {
 	tmpl, _ := template.ParseFiles("static/index.html")
 	tmpl.Execute(res, nil)
 }

@@ -6,14 +6,18 @@ import (
 	"net/http"
 )
 
-func SessionsCreate(res http.ResponseWriter, req *http.Request) {
+var currentUser = User{}
+
+func sessionsCreate(res http.ResponseWriter, req *http.Request) {
 	user, err := gothic.CompleteUserAuth(res, req)
 	if err != nil {
 		panic(err)
 	}
 
 	currentUser := FindOrCreateUserFromAuthHash(user)
-	fmt.Fprintln(res, "logged in!", currentUser)
+	http.Redirect(res, req, "/board", http.StatusFound)
+	// fmt.Fprintln(res, "logged in!", currentUser)
+	fmt.Println(currentUser)
 	// fmt.Fprintln(res, "logged in!", user)
 }
 
