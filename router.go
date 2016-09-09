@@ -13,7 +13,6 @@ func NewRouter() *mux.Router {
 	router.HandleFunc("/", HomeHandler).Methods("GET")
 	router.HandleFunc("/auth/{provider}", gothic.BeginAuthHandler).Methods("GET")
 	router.HandleFunc("/auth/{provider}/callback", sessionsCreate).Methods("GET")
-	router.HandleFunc("/board", boardHandler).Methods("GET")
 
 	http.Handle("/", router)
 	return router

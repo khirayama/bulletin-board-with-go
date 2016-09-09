@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/markbates/goth"
 )
 
@@ -16,13 +15,6 @@ type User struct {
 func FindOrCreateUserFromAuthHash(gothUser goth.User) User {
 	user := User{}
 
-	fmt.Println(gothUser)
-	fmt.Println(
-		gothUser.Provider,
-		gothUser.UserID,
-		gothUser.NickName,
-		gothUser.AvatarURL,
-	)
 	rows, _ := database.Query(
 		"SELECT id, provider, uid, nickname, image_url FROM users where uid = ? and provider = ?",
 		gothUser.UserID,
@@ -46,7 +38,6 @@ func FindOrCreateUserFromAuthHash(gothUser goth.User) User {
 	}
 
 	stmt, _ := database.Prepare("INSERT INTO users(provider, uid, nickname, image_url) values(?, ?, ?, ?)")
-	fmt.Println(stmt)
 	res, _ := stmt.Exec(
 		gothUser.Provider,
 		gothUser.UserID,
